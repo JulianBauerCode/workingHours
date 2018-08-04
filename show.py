@@ -62,21 +62,6 @@ data['duration'] = data.apply(
                     '{:02d}:{:02d}'.format( int(row['cHours']), int(round(row['cHours'] % 1 * 60.0, 1)) ),
                     axis=1)
 
-#https://stackoverflow.com/a/8907269/8935243
-def strfdelta(tdelta, fmt):
-    d = {"D": tdelta.days}
-    d["H"], rem = divmod(tdelta.seconds, 3600)
-    ## Add day - duration to hour duration and delete day duration
-    #d["H"] = d["H"] + d["D"] * 24.0
-    #d["D"] = 0.0
-    d["M"], d["S"] = divmod(rem, 60)
-    return fmt.format(**d)
-
-data['duration2'] = data.apply(
-                    func=lambda row:
-                    strfdelta(row['cDuration'], '{H:02}:{M:02}'),
-                    axis=1)
-
 # Calc weekly duration
 
 data['week'] = data.apply(
@@ -105,8 +90,5 @@ with open('show.txt', 'w') as myFile:
     with redirect_stdout(myFile):
         # Pandas
         print(out)
-        ## Tabulate
-        #from tabulate import tabulate
-        #print(tabulate(out, headers='keys', tablefmt='psql'))
-    
+   
 
